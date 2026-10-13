@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>G PERYA🎲🎡 | Color Dice & Wheel Game</title>
+    <meta name="description"
+        content="Play G PERYA — a fun online color dice and wheel game! Roll the dice, spin the wheel, and enjoy Light or Dark mode in one exciting perya-inspired experience.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="pic/gperya.png" type="image/x-icon">
+    <!-- Google Fonts: Luckiest Guy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1 class="hidden-h1">G PERYA 🎲 — Online Color Dice and Wheel Game</h1>
+    <p class="intro">
+        Welcome to <strong>G PERYA</strong> — the ultimate online color dice and wheel game inspired by the classic
+        perya! 🎲
+        Test your luck by rolling the dice or spinning the Light or Dark wheel.
+        Simple, fun, and free to play anytime — no downloads needed!
+    </p>
+
+    <!-- Top Header -->
+    <header class="top-header">
+        <button id="btnSoundToggle" class="sound-toggle-badge" title="Toggle Sound">🔊 SOUND: ON</button>
+        <img src="pic/gperya.png" alt="G Perya Logo" class="top-logo">
+        <div class="top-tagline">COLOR GAME & LIGHT OR DARK</div>
+    </header>
+
+    <!-- Background overlays from gperya -->
+    <div class="bg-overlay"></div>
+    <div class="bg-overlay-2"></div>
+    <div id="floating-circles-container"></div>
+
+    <!-- Main Game Wrapper -->
+    <main class="wrapper">
+        <div class="title">G PERYA</div>
+
+        <div class="dropdown-container">
+            <select id="numDice" aria-label="Number of Dice or Spin Seconds">
+                <option value="1">1 Dice</option>
+                <option value="2">2 Dice</option>
+                <option value="3" selected>3 Dice</option>
+                <option value="4">4 Dice</option>
+                <option value="5">5 Dice</option>
+                <option value="6">6 Dice</option>
+            </select>
+
+            <select id="colorDice" aria-label="Game Mode">
+                <option value="color" selected>Color Dice</option>
+                <option value="lightOrDark">Light or Dark Wheel</option>
+            </select>
+        </div>
+
+        <!-- Color Dice Result Area -->
+        <div id="diceResultArea" class="dice-result"></div>
+
+        <!-- Wheel of Fortune Area -->
+        <div id="wheelWrapper" class="wheel-wrapper" style="display: none;">
+            <div class="wheel-container-with-pointer">
+                <div id="singleWheelContainer" class="single-wheel-container">
+                    <div id="lightDarkWheel" class="wheel"></div>
+                </div>
+            </div>
+            <div id="winnerText"></div>
+        </div>
+
+        <!-- Big Action Roll Button -->
+        <button id="rollButton">ROLL AGAIN !</button>
+
+        <!-- Color Information Card -->
+        <div class="color-container">
+            <div class="color-info" id="colorInfo">
+                Possible colors are:
+                <span style="color: #FF0000; font-weight: bold;">Red</span>,
+                <span style="color: #FFA500; font-weight: bold;">Orange</span>,
+                <span style="color: #FFFF00; font-weight: bold; text-shadow: 0 0 2px #000;">Yellow</span>,
+                <span style="color: #008000; font-weight: bold;">Green</span>,
+                <span style="color: #0000FF; font-weight: bold;">Blue</span>, and
+                <span style="color: #800080; font-weight: bold;">Purple</span>.
+            </div>
+        </div>
+    </main>
+
+    <!-- Optional Betting Board Toggle -->
+    <div class="perya-extra-bar">
+        <button id="btnToggleBetting" class="btn-feature-toggle">🎪 TOGGLE BETTING BOARD</button>
+        <button id="btnToggleDots" class="btn-feature-toggle">🎲 TOGGLE NUMBERS / DOTS</button>
+    </div>
+
+    <!-- Optional Betting Board Section -->
+    <section id="bettingSection" class="betting-section-container">
+        <div class="bet-header-line">
+            <span class="top-tagline" style="font-size: 22px; margin: 0;">🎪 COLOR BETTING</span>
+            <div class="purse-badge">PURSE: <span id="purseAmount">₱1,000</span></div>
+            <button id="btnRefillPurse" class="btn-feature-toggle" style="padding: 4px 10px; font-size: 14px;">+ ₱1K
+                REFILL</button>
+        </div>
+
+        <div class="betting-grid-6">
+            <div class="bet-color-slot" data-color="red" style="background-color: #FF0000;">
+                <span class="bet-slot-title">1 RED</span>
+                <span class="bet-slot-chips" id="bet-amt-red">₱0</span>
+            </div>
+            <div class="bet-color-slot" data-color="purple" style="background-color: #800080;">
+                <span class="bet-slot-title">2 PURPLE</span>
+                <span class="bet-slot-chips" id="bet-amt-purple">₱0</span>
+            </div>
+            <div class="bet-color-slot" data-color="yellow" style="background-color: #FFFF00; color: #000;">
+                <span class="bet-slot-title" style="color: #000; text-shadow: none;">3 YELLOW</span>
+                <span class="bet-slot-chips" id="bet-amt-yellow">₱0</span>
+            </div>
+            <div class="bet-color-slot" data-color="green" style="background-color: #008000;">
+                <span class="bet-slot-title">4 GREEN</span>
+                <span class="bet-slot-chips" id="bet-amt-green">₱0</span>
+            </div>
+            <div class="bet-color-slot" data-color="blue" style="background-color: #0000FF;">
+                <span class="bet-slot-title">5 BLUE</span>
+                <span class="bet-slot-chips" id="bet-amt-blue">₱0</span>
+            </div>
+            <div class="bet-color-slot" data-color="orange" style="background-color: #FFA500;">
+                <span class="bet-slot-title">6 ORANGE</span>
+                <span class="bet-slot-chips" id="bet-amt-orange">₱0</span>
+            </div>
+        </div>
+
+        <div class="chips-row">
+            <span style="color: #fff; font-size: 14px; align-self: center;">CHIP:</span>
+            <div class="chip-perya active" data-val="10" style="background: #3b82f6; color:#fff;">₱10</div>
+            <div class="chip-perya" data-val="50" style="background: #ef4444; color:#fff;">₱50</div>
+            <div class="chip-perya" data-val="100" style="background: #10b981; color:#fff;">₱100</div>
+            <div class="chip-perya" data-val="500" style="background: #8b5cf6; color:#fff;">₱500</div>
+            <button id="btnClearBets" class="btn-feature-toggle" style="padding: 6px 12px; font-size: 14px;">✕
+                CLEAR</button>
+        </div>
+    </section>
+
+    <!-- Roll & Spin History Section at the bottom -->
+    <section class="history-container" id="historySection">
+        <div class="history-title-bar">
+            <div class="history-heading">
+                <span>📜</span> ROLL HISTORY <span class="history-counter-tag" id="historyCount">0</span>
+            </div>
+            <button id="btnClearHistory" class="btn-clear-history" title="Clear history">✕ CLEAR</button>
+        </div>
+        <div id="historyList" class="history-list">
+            <div class="history-empty-text">No rolls yet! Click ROLL AGAIN to play.</div>
+        </div>
+    </section>
+
+    <!-- Hidden Defender/Exclusion controls container from gperya -->
+    <div class="sec-defender" id="excludeContainer"></div>
+
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
+</body>
+
+</html>

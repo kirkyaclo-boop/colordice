@@ -1,0 +1,17 @@
+{
+  "name": "g-perya-color-dice",
+  "version": "1.0.0",
+  "description": "G PERYA - Color Dice & Wheel Game",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "color-dice",
+    "g-perya",
+    "wheel-game"
+  ],
+  "author": "",
+  "license": "ISC"
+}
