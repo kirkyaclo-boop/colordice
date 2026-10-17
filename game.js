@@ -204,6 +204,12 @@ function rollDice() {
             }
         }, 1500 + i * 80);
     }
+
+    // Avoid only lasts for this one roll — hold the F-key again before the next roll
+    if (excludedItems.length > 0) {
+        excludedItems = [];
+        updateAvoidUI();
+    }
 }
 
 // Wheel Spin Execution (Faithful to gperya.neocities.org)
@@ -562,15 +568,9 @@ const F_KEY_MAP = {
 };
 
 function setAvoidColor(colorKey, fLabel) {
-    if (excludedItems.includes(colorKey)) {
-        // Toggle off if already avoided
-        excludedItems = excludedItems.filter(c => c !== colorKey);
-        playTickSound();
-    } else {
-        // Avoid this color
-        excludedItems = [colorKey];
-        playTickSound();
-    }
+    // Always avoid this color (pressing again never turns it off) — lasts for the next roll only
+    excludedItems = [colorKey];
+    playTickSound();
     updateAvoidUI(fLabel);
 }
 
