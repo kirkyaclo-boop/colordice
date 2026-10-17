@@ -204,12 +204,6 @@ function rollDice() {
             }
         }, 1500 + i * 80);
     }
-
-    // Avoid only lasts for one roll — hold the F-key again to avoid on the next roll
-    if (excludedItems.length > 0) {
-        excludedItems = [];
-        updateAvoidUI();
-    }
 }
 
 // Wheel Spin Execution (Faithful to gperya.neocities.org)
