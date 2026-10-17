@@ -570,13 +570,11 @@ const F_KEY_MAP = {
 function setAvoidColor(colorKey, fLabel) {
     // Always avoid this color (pressing again never turns it off) — lasts for the next roll only
     excludedItems = [colorKey];
-    playTickSound();
     updateAvoidUI(fLabel);
 }
 
 function clearAllAvoid() {
     excludedItems = [];
-    playTickSound();
     updateAvoidUI();
 }
 
