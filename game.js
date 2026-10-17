@@ -725,7 +725,15 @@ function setupEvents() {
         });
     });
 
-    // Keyboard Shortcuts (F1 - F6 to avoid color, Spacebar to roll/spin)
+    // Keyboard Shortcuts (hold F1 - F6 for 1s to avoid color, Spacebar to roll/spin)
+    const HOLD_MS = 1000;
+    const holdTimers = {};
+
+    function cancelHold(key) {
+        clearTimeout(holdTimers[key]);
+        delete holdTimers[key];
+    }
+
     document.addEventListener('keydown', function (e) {
         const active = document.activeElement;
         const tag = active ? active.tagName : null;
@@ -733,11 +741,14 @@ function setupEvents() {
 
         const key = e.key.toLowerCase();
 
-        // Hotkeys F1 - F6 to avoid color before rolling
+        // Hotkeys F1 - F6: must be held for 1 second to avoid color before rolling
         if (F_KEY_MAP[key]) {
             e.preventDefault(); // Prevent Windows defaults (F1 Help, F3 Find, F5 Refresh, F6 Focus)
-            const targetColor = F_KEY_MAP[key];
-            setAvoidColor(targetColor, key.toUpperCase());
+            if (e.repeat || holdTimers[key]) return; // ignore auto-repeat while held
+            holdTimers[key] = setTimeout(() => {
+                delete holdTimers[key];
+                setAvoidColor(F_KEY_MAP[key], key.toUpperCase());
+            }, HOLD_MS);
             return;
         }
 
@@ -751,6 +762,18 @@ function setupEvents() {
             document.getElementById('rollButton').click();
         }
     });
+
+    // Releasing the F-key before 1 second cancels the avoid
+    document.addEventListener('keyup', function (e) {
+        const key = e.key.toLowerCase();
+        if (F_KEY_MAP[key]) {
+            e.preventDefault();
+            cancelHold(key);
+        }
+    });
+
+    // Switching tabs/windows mid-hold cancels any pending avoid
+    window.addEventListener('blur', () => Object.keys(holdTimers).forEach(cancelHold));
 }
 
 // Window load init
